@@ -10,24 +10,19 @@ public class TimeMonitor : MonoBehaviour
 
     public TextMeshProUGUI textMesh = null!;
 
-    private TextMeshProUGUI _timeMesh = null!;
 
     public void Start()
     {
-        Log.LogDebug("TimeMonitor -> Start()");
+        ModLogger.LogDebug($"{name} -> Start()");
         if (!Instance) Instance = this;
-
-        _timeMesh = GameObject
-            .Find("Systems/UI/Canvas/IngamePlayerHUD/ProfitQuota/Container/Box/TimeNumber")
-            .GetComponent<TextMeshProUGUI>();
         textMesh = GetComponent<TextMeshProUGUI>();
-        textMesh.text = "TIME:\n7:30\nAM";
-        Log.LogDebug("TimeMonitor -> Start() end");
+        textMesh.text = Config.HideTime.Value ? string.Empty : "TIME:\n7:30\nAM";
+        ModLogger.LogDebug($"{name} -> Start() end");
     }
 
     public void UpdateMonitor()
     {
-        Log.LogDebug("TimeMonitor -> UpdateMonitor()");
-        textMesh.text = Config.HideTime.Value ? string.Empty : $"TIME:\n{_timeMesh.text}";
+        // Log.LogDebug($"{name} -> UpdateMonitor()");
+        textMesh.text = Config.HideTime.Value ? string.Empty : $"TIME:\n{HUDManager.Instance.clockNumber.text}";
     }
 }

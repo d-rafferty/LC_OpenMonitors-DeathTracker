@@ -11,16 +11,14 @@ public static class Config
 
     public static ConfigEntry<bool> HideWeather { get; private set; } = null!;
 
-    public static ConfigEntry<bool> HideProfitQuota { get; private set; } = null!;
-
     public static ConfigEntry<int> ProfitQuotaMonitorSlot { get; private set; } = null!;
-
-    public static ConfigEntry<bool> HideDeadline { get; private set; } = null!;
 
     public static ConfigEntry<int> DeadlineMonitorSlot { get; private set; } = null!;
 
     public static ConfigEntry<bool> HideLifeSupport { get; private set; } = null!;
     public static ConfigEntry<int> LifeSupportMonitorSlot { get; private set; } = null!;
+
+    public static ConfigEntry<bool> HidePlayersLifeSupport { get; private set; } = null!;
 
     public static ConfigEntry<bool> HideLoot { get; private set; } = null!;
 
@@ -35,6 +33,7 @@ public static class Config
     public static ConfigEntry<int> DayMonitorSlot { get; private set; } = null!;
 
     public static ConfigEntry<bool> HideTime { get; private set; } = null!;
+
     public static ConfigEntry<int> TimeMonitorSlot { get; private set; } = null!;
 
     public static void Initialize()
@@ -46,25 +45,11 @@ public static class Config
             "Disables Weather from the navigation screen, and Terminal"
         );
 
-        HideProfitQuota = ModConfig.Bind(
-            MonitorSection,
-            "HideProfitQuota",
-            false,
-            "Disables the Profit Quota Monitor"
-        );
-
         ProfitQuotaMonitorSlot = ModConfig.Bind(
             MonitorSection,
             "ProfitQuotaMonitorSlot",
             1,
             $"Slot for the Profit Quota Monitor. {AllowableSlotValues}"
-        );
-
-        HideDeadline = ModConfig.Bind(
-            MonitorSection,
-            "HideDeadline",
-            false,
-            "Disables the Deadline Monitor"
         );
 
         DeadlineMonitorSlot = ModConfig.Bind(
@@ -78,7 +63,7 @@ public static class Config
             MonitorSection,
             "HideLifeSupport",
             false,
-            $"Disables the Life Support Monitor. {AllowableSlotValues}"
+            "Disables the Life Support Monitor."
         );
 
         LifeSupportMonitorSlot = ModConfig.Bind(
@@ -86,6 +71,13 @@ public static class Config
             "LifeSupportMonitorSlot",
             4,
             $"Slot for the Life Support Monitor. {AllowableSlotValues}"
+        );
+
+        HidePlayersLifeSupport = ModConfig.Bind(
+            MonitorSection,
+            "HidePlayersLifeSupport",
+            true,
+            "Disables the Players Life Support Monitor."
         );
 
         HideLoot = ModConfig.Bind(

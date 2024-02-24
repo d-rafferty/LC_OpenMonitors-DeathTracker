@@ -1,6 +1,6 @@
 {
   "name": "OpenMonitors",
-  "version_number": "1.0.3",
+  "version_number": "1.0.5",
   "website_url": "https://github.com/julian-perge/LC_OpenMonitors/tree/main/OpenMonitors",
   "description": "An open source variation of CorporateRestructure, with additional features and improvements.",
   "dependencies": [

@@ -10,32 +10,26 @@ public class DayMonitor : MonoBehaviour
 
     public TextMeshProUGUI textMesh = null!;
 
-    private StartOfRound _startOfRound = null!;
-
-    private EndOfGameStats _stats = null!;
-
     public void Start()
     {
-        Log.LogDebug("DayMonitor -> Start()");
-        textMesh = GetComponent<TextMeshProUGUI>();
+        ModLogger.LogDebug($"{name} -> Start()");
         if (!Instance) Instance = this;
-        _startOfRound = StartOfRound.Instance;
-        _stats = _startOfRound.gameStats;
-        if (_startOfRound.IsHost)
+        textMesh = GetComponent<TextMeshProUGUI>();
+        textMesh.text = Config.HideDay.Value ? string.Empty : "DAY:\n?";
+        if (StartOfRound.Instance.IsHost)
         {
-            Log.LogDebug("DayMonitor -> Start() -> IsHost");
+            ModLogger.LogDebug($"{name} -> Start() -> IsHost");
             UpdateMonitor();
         }
         else
         {
-            Log.LogDebug("DayMonitor -> Start() -> NOT IsHost");
-            textMesh.text = "DAY:\n?";
+            ModLogger.LogDebug($"{name} -> Start() -> NOT IsHost");
         }
     }
 
     public void UpdateMonitor()
     {
-        Log.LogDebug("DayMonitor -> UpdateMonitor()");
-        textMesh.text = Config.HideDay.Value ? string.Empty : $"DAY:\n{_stats.daysSpent}";
+        ModLogger.LogDebug($"{name} -> UpdateMonitor()");
+        textMesh.text = Config.HideDay.Value ? string.Empty : $"DAY:\n{StartOfRound.Instance.gameStats.daysSpent}";
     }
 }

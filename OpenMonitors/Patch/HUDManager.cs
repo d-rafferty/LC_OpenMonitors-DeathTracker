@@ -4,14 +4,14 @@ using static OpenMonitors.Plugin;
 
 namespace OpenMonitors.Patch;
 
-[HarmonyPatch(typeof(HUDManager))]
-public class HudManagerPatch
+[HarmonyPatch(typeof(global::HUDManager))]
+public class HUDManager
 {
     [HarmonyPostfix]
-    [HarmonyPatch(nameof(HUDManager.ApplyPenalty))]
+    [HarmonyPatch(nameof(global::HUDManager.ApplyPenalty))]
     private static void UpdateCreditsAfterDeadPlayersPenalty()
     {
-        Log.LogDebug("HUDManager.UpdateCreditsAfterDeadPlayersPenalty");
+        ModLogger.LogDebug("HUDManager.UpdateCreditsAfterDeadPlayersPenalty");
         CreditsMonitor.Instance.UpdateMonitor();
     }
 }

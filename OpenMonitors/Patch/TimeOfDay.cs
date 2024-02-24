@@ -4,22 +4,22 @@ using static OpenMonitors.Plugin;
 
 namespace OpenMonitors.Patch;
 
-[HarmonyPatch(typeof(TimeOfDay))]
-public class TimeOfDayPatch
+[HarmonyPatch(typeof(global::TimeOfDay))]
+public class TimeOfDay
 {
     [HarmonyPostfix]
-    [HarmonyPatch(nameof(TimeOfDay.SyncNewProfitQuotaClientRpc))]
+    [HarmonyPatch(nameof(global::TimeOfDay.SyncNewProfitQuotaClientRpc))]
     private static void UpdateCreditsAfterReachingQuota()
     {
-        Log.LogDebug("TimeOfDay.UpdateCreditsAfterReachingQuota");
+        ModLogger.LogDebug("TimeOfDay.UpdateCreditsAfterReachingQuota");
         CreditsMonitor.Instance.UpdateMonitor();
     }
 
     [HarmonyPostfix]
-    [HarmonyPatch(nameof(TimeOfDay.MoveTimeOfDay))]
+    [HarmonyPatch(nameof(global::TimeOfDay.MoveTimeOfDay))]
     private static void UpdateClockTime()
     {
-        Log.LogDebug("TimeOfDay.UpdateClockTime");
+        // Log.LogDebug("TimeOfDay.UpdateClockTime");
         TimeMonitor.Instance.UpdateMonitor();
     }
 }
