@@ -12,7 +12,7 @@ public class TimeOfDay
     private static void UpdateCreditsAfterReachingQuota()
     {
         ModLogger.LogDebug("TimeOfDay.UpdateCreditsAfterReachingQuota");
-        CreditsMonitor.Instance.UpdateMonitor();
+        DaysSinceIncidentMonitor.Instance.UpdateMonitor();
     }
 
     [HarmonyPostfix]

@@ -94,13 +94,13 @@ internal static class Setup
         ModLogger.LogDebug("Destroying Deadline BG");
         Object.Destroy(GameObject.Find(MonitorContainerPath + "/BG (1)"));
 
-        LifeSupportMonitor.Instance = CreateMonitor<LifeSupportMonitor>(Config.LifeSupportMonitorSlot.Value);
+        MostFallsMonitor.Instance = CreateMonitor<MostFallsMonitor>(Config.LifeSupportMonitorSlot.Value);
 
-        LootMonitor.Instance = CreateMonitor<LootMonitor>(Config.LootMonitorSlot.Value);
+        TotalFallsMonitor.Instance = CreateMonitor<TotalFallsMonitor>(Config.LootMonitorSlot.Value);
 
         TimeMonitor.Instance = CreateMonitor<TimeMonitor>(Config.TimeMonitorSlot.Value);
 
-        CreditsMonitor.Instance = CreateMonitor<CreditsMonitor>(Config.CreditsMonitorSlot.Value);
+        DaysSinceIncidentMonitor.Instance = CreateMonitor<DaysSinceIncidentMonitor>(Config.CreditsMonitorSlot.Value);
 
         DayMonitor.Instance = CreateMonitor<DayMonitor>(Config.DayMonitorSlot.Value);
         

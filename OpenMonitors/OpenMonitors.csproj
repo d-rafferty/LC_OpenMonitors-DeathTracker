@@ -27,16 +27,6 @@
         <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all"/>
     </ItemGroup>
 
-    <Target Name="CopyDLLs" AfterTargets="Build" Condition="$(Configuration) == 'Debug' or $(Configuration) == 'Release' ">
-        <Message Text="Executing CopyDLLs task" Importance="High"/>
-
-        <Copy SourceFiles="$(TargetDir)$(ProjectName).dll"
-              DestinationFolder="C:\Users\Jules\AppData\Roaming\r2modmanPlus-local\LethalCompany\profiles\Solo\BepInEx\plugins\$(PackageId)"
-        />
-
-        <Message Text="Copied build files" Importance="High"/>
-    </Target>
-
     <Target Name="ZipFiles" AfterTargets="Build" Condition="$(Configuration) == 'Thunderstore' ">
         <Exec Command="7z u -tzip $(PackageId).zip .\README.md .\CHANGELOG.md .\manifest.json .\docs\images\icon.png $(TargetDir)$(ProjectName).dll"/>
     </Target>

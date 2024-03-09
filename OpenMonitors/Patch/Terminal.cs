@@ -14,7 +14,7 @@ public class Terminal
     private static void RefreshMoney()
     {
         ModLogger.LogDebug("Terminal.RefreshMoney");
-        CreditsMonitor.Instance.UpdateMonitor();
+        DaysSinceIncidentMonitor.Instance.UpdateMonitor();
     }
 
     [HarmonyPostfix]

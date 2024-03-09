@@ -30,6 +30,6 @@ public class DayMonitor : MonoBehaviour
     public void UpdateMonitor()
     {
         ModLogger.LogDebug($"{name} -> UpdateMonitor()");
-        textMesh.text = Config.HideDay.Value ? string.Empty : $"DAY:\n{StartOfRound.Instance.gameStats.daysSpent}";
+        textMesh.text = Config.HideDay.Value ? string.Empty : $"DAY:\n{(StartOfRound.Instance.gameStats.daysSpent) + 1}";
     }
 }
