@@ -12,6 +12,6 @@ public class DepositItemsDesk
     private static void UpdateCreditsAfterSellingLoot()
     {
         ModLogger.LogDebug("DepositItemsDesk.UpdateCreditsAfterSellingLoot");
-        CreditsMonitor.Instance.UpdateMonitor();
+        DaysSinceIncidentMonitor.Instance.UpdateMonitor();
     }
 }

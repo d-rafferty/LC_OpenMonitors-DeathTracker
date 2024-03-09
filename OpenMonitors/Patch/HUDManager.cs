@@ -12,6 +12,6 @@ public class HUDManager
     private static void UpdateCreditsAfterDeadPlayersPenalty()
     {
         ModLogger.LogDebug("HUDManager.UpdateCreditsAfterDeadPlayersPenalty");
-        CreditsMonitor.Instance.UpdateMonitor();
+        DaysSinceIncidentMonitor.Instance.UpdateMonitor();
     }
 }

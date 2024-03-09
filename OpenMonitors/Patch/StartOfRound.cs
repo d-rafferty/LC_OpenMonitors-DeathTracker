@@ -22,11 +22,11 @@ public class StartOfRound
     private static void RefreshMonitorsWhenPlayerRevives()
     {
         ModLogger.LogDebug("StartOfRound.RefreshMonitorsWhenPlayerRevives");
-        CreditsMonitor.Instance.UpdateMonitor();
         DayMonitor.Instance.UpdateMonitor();
-        LifeSupportMonitor.Instance.UpdateMonitor();
-        LootMonitor.Instance.UpdateMonitor();
+        MostFallsMonitor.Instance.UpdateMonitor();
+        TotalFallsMonitor.Instance.UpdateMonitor();
         PlayersLifeSupportMonitor.Instance.UpdateMonitor();
+        DaysSinceIncidentMonitor.Instance.UpdateMonitor();
     }
 
     [HarmonyPostfix]
@@ -34,7 +34,7 @@ public class StartOfRound
     private static void RefreshLootForClientOnStart()
     {
         ModLogger.LogDebug("StartOfRound.RefreshLootForClientOnStart");
-        LootMonitor.Instance.UpdateMonitor();
+        TotalFallsMonitor.Instance.UpdateMonitor();
     }
 
     [HarmonyPostfix]
@@ -42,7 +42,7 @@ public class StartOfRound
     private static void UpdateCreditsWhenSwitchingMoons()
     {
         ModLogger.LogDebug("StartOfRound.UpdateCreditsWhenSwitchingMoons");
-        CreditsMonitor.Instance.UpdateMonitor();
+        DaysSinceIncidentMonitor.Instance.UpdateMonitor();
     }
 
 
@@ -52,6 +52,7 @@ public class StartOfRound
     {
         ModLogger.LogDebug("StartOfRound.RefreshDayWhenShipHasLeft");
         DayMonitor.Instance.UpdateMonitor();
+        DaysSinceIncidentMonitor.Instance.EndOfDay();
     }
 
     [HarmonyPostfix]
@@ -60,6 +61,7 @@ public class StartOfRound
     {
         ModLogger.LogDebug("StartOfRound.UpdateDayAtStartOfGame");
         DayMonitor.Instance.UpdateMonitor();
+
     }
 
     [HarmonyPostfix]
@@ -67,10 +69,10 @@ public class StartOfRound
     private static void UpdateMonitorsWhenPlayerConnectsClient(ulong clientId)
     {
         ModLogger.LogDebug("StartOfRound.UpdateMonitorsWhenPlayerConnectsClient");
-        CreditsMonitor.Instance.UpdateMonitor();
-        LifeSupportMonitor.Instance.UpdateMonitor();
+        DaysSinceIncidentMonitor.Instance.UpdateMonitor();
+        MostFallsMonitor.Instance.UpdateMonitor();
         PlayersLifeSupportMonitor.Instance.UpdateMonitor();
-        LootMonitor.Instance.UpdateMonitor();
+        TotalFallsMonitor.Instance.UpdateMonitor();
     }
     
     
@@ -86,13 +88,13 @@ public class StartOfRound
         int profitQuota,
         int timeUntilDeadline,
         int quotaFulfilled,
-        int randomSeed  
+        int randomSeed
     )
     {
         ModLogger.LogDebug("StartOfRound.UpdateMonitorsWhenPlayerConnectsClientRpc");
-        CreditsMonitor.Instance.UpdateMonitor();
-        LifeSupportMonitor.Instance.UpdateMonitor();
-        LootMonitor.Instance.UpdateMonitor();
+        DaysSinceIncidentMonitor.Instance.UpdateMonitor();
+        MostFallsMonitor.Instance.UpdateMonitor();
+        TotalFallsMonitor.Instance.UpdateMonitor();
         PlayersLifeSupportMonitor.Instance.UpdateMonitor();
     }
 
@@ -101,11 +103,19 @@ public class StartOfRound
     private static void UpdateMonitorsWhenPlayerDisconnects(int playerObjectNumber, ulong clientId)
     {
         ModLogger.LogDebug("StartOfRound.UpdateMonitorsWhenPlayerDisconnects");
-        CreditsMonitor.Instance.UpdateMonitor();
-        LifeSupportMonitor.Instance.UpdateMonitor();
-        LootMonitor.Instance.UpdateMonitor();
+        DaysSinceIncidentMonitor.Instance.UpdateMonitor();
+        MostFallsMonitor.Instance.UpdateMonitor();
+        TotalFallsMonitor.Instance.UpdateMonitor();
         PlayersLifeSupportMonitor.Instance.UpdateMonitor();
     }
+
+   /* [HarmonyPostfix]
+    [HarmonyPatch(nameof(global::StartOfRound.allPlayersDead))]
+    private static void UpdateDSIMonitorAfterRound()
+    {
+        ModLogger.LogDebug("StartOfRound.UpdateMonitorsWhenPlayerDisconnects");
+        DaysSinceIncidentMonitor.Instance.ChangeCount(false);
+    }*/
 
     [HarmonyPostfix]
     [HarmonyPatch(nameof(global::StartOfRound.SetMapScreenInfoToCurrentLevel))]
