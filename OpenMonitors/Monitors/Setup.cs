@@ -94,11 +94,11 @@ internal static class Setup
         ModLogger.LogDebug("Destroying Deadline BG");
         Object.Destroy(GameObject.Find(MonitorContainerPath + "/BG (1)"));
 
-        MostFallsMonitor.Instance = CreateMonitor<MostFallsMonitor>(Config.LifeSupportMonitorSlot.Value);
+        MostFallsMonitor.Instance = CreateMonitor<MostFallsMonitor>(6);
 
         TotalFallsMonitor.Instance = CreateMonitor<TotalFallsMonitor>(Config.LootMonitorSlot.Value);
 
-        TimeMonitor.Instance = CreateMonitor<TimeMonitor>(Config.TimeMonitorSlot.Value);
+        TimeMonitor.Instance = CreateMonitor<TimeMonitor>(4);
 
         DaysSinceIncidentMonitor.Instance = CreateMonitor<DaysSinceIncidentMonitor>(Config.CreditsMonitorSlot.Value);
 
@@ -108,7 +108,7 @@ internal static class Setup
         // local position = (818, -493, -196)
         // local rotation = (9.5577, 24.9, 5.4)
         
-        PlayersLifeSupportMonitor.Instance = CreateMonitor<PlayersLifeSupportMonitor>(9);
+        //PlayersLifeSupportMonitor.Instance = CreateMonitor<PlayersLifeSupportMonitor>(6);
     }
 
     private static T CreateMonitor<T>(int targetSlot) where T : MonoBehaviour

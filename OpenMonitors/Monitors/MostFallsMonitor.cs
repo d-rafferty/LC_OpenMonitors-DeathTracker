@@ -9,6 +9,9 @@ using DunGen;
 using HarmonyLib;
 using Dissonance.Networking;
 using System.Linq;
+using GameNetcodeStuff;
+using System.Collections;
+using Unity.Services.Authentication.Internal;
 
 namespace OpenMonitors.Monitors;
 
@@ -18,23 +21,55 @@ public class MostFallsMonitor : MonoBehaviour
 
     private TextMeshProUGUI _textMesh = null!;
 
-    public static Dictionary<int, int> FallDeathDict = new Dictionary<int, int>();  
+    public static Dictionary<PlayerControllerB, int> FallDeathDict = new Dictionary<PlayerControllerB, int>();
 
-    private static DateTime _LastDeathCall = DateTime.MinValue;
+    int mostFalls = 0;
+
+    bool firstCall = true;
+
+    private static DateTime _LastCall = DateTime.MinValue;
+
 
     public void Start()
     {
         ModLogger.LogDebug($"{name} -> Start()");
         if (!Instance) Instance = this;
         _textMesh = GetComponent<TextMeshProUGUI>();
-        ModLogger.LogDebug($"{name} -> Start() -> UpdateMonitor()");
-        UpdateMonitor();
+        _textMesh.text = Config.HideLifeSupport.Value
+            ? string.Empty
+            : $"MOST FALLS:\n N/A";
     }
 
     public void UpdateMonitor()
     {
-        ModLogger.LogDebug($"{name} -> UpdateMonitor()");
-        if (FallDeathDict.Count == 0)
+        if (firstCall == true)
+        {
+            foreach (var playerId in StartOfRound.Instance.ClientPlayerList.Keys)
+            {
+                PlayerControllerB player = StartOfRound.Instance.allPlayerScripts[playerId];
+                FallDeathDict.Add(player, 0);
+            }
+            firstCall = false;
+        } else
+        {
+            var now = DateTime.UtcNow;
+            if ((now - _LastCall).TotalSeconds > 15)        //update called multiple times quickly, sets 15 sec cooldown to avoid multiple counts of same death
+            {
+                _LastCall = now;
+                foreach (var playerId in StartOfRound.Instance.ClientPlayerList.Keys)
+                {
+                    PlayerControllerB player = StartOfRound.Instance.allPlayerScripts[playerId];
+                    if (player.isPlayerDead & player.causeOfDeath == CauseOfDeath.Gravity)
+                    {
+                        FallDeathDict[player]++;
+                        TotalFallsMonitor.NewDeath();
+                    }
+                }
+            } 
+        }
+
+        mostFalls = FallDeathDict.Max(x => x.Value);
+        if (mostFalls == 0)
         {
             _textMesh.text = Config.HideLifeSupport.Value
             ? string.Empty
@@ -42,31 +77,12 @@ public class MostFallsMonitor : MonoBehaviour
         }
         else
         {
-            int mostFalls = FallDeathDict.Max(x => x.Value);
-            Console.WriteLine("MOST FALLS: ");
-            Console.WriteLine(mostFalls);
-            int mostPlayerid = FallDeathDict.FirstOrDefault(x => x.Value == mostFalls).Key;    //if pid is 0 it is host
-            ModLogger.LogDebug($"Most falls id: {mostPlayerid} fall count: {mostFalls}");
-            //find name from id and pass it in here
+            PlayerControllerB fallGuy = FallDeathDict.FirstOrDefault(x => x.Value == mostFalls).Key;
+            _textMesh.fontSize = 56;
 
             _textMesh.text = Config.HideLifeSupport.Value
             ? string.Empty
-            : $"MOST FALLS:\np: {mostPlayerid} - {mostFalls}";
+            : $"MOST FALLS:\n{fallGuy.playerUsername} - {mostFalls}";
         }
-    }
-
-    public static void checkFallDict(int playerid)
-    {
-        var now = DateTime.UtcNow;
-        if ((now - _LastDeathCall).TotalSeconds < 15) { return; } //death function called by game 3 times quickly, sets 5 sec cooldown to avoid this
-
-
-        _LastDeathCall = now;
-        if (FallDeathDict.ContainsKey(playerid))
-        {
-            Console.WriteLine("INCREMENTING FALL COUNT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            FallDeathDict[playerid]++;
-        }
-        else { FallDeathDict.Add(playerid, 1); }
     }
 }

@@ -16,7 +16,7 @@ public class TotalFallsMonitor : MonoBehaviour
 
     private static DateTime _LastDeathCall = DateTime.MinValue;
 
-    int totalFalls = 0;
+    static int totalFalls = 0;
 
     public void Start()
     {
@@ -35,12 +35,8 @@ public class TotalFallsMonitor : MonoBehaviour
         textMesh.text = Config.HideLoot.Value ? string.Empty : $"FALLS:\n{totalFalls}";
     }
 
-    public void NewDeath()
+    public static void NewDeath()
     {
-        var now = DateTime.UtcNow;
-        if ((now - _LastDeathCall).TotalSeconds < 15) { return; } //death function called by game 3 times quickly, sets 5 sec cooldown to avoid this
         totalFalls++;
-        _LastDeathCall = now;
-        UpdateMonitor();
     }
 }

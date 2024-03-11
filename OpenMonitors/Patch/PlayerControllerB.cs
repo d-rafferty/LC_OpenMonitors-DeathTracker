@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using DunGen;
 using HarmonyLib;
 using OpenMonitors.Monitors;
@@ -37,15 +38,6 @@ public class PlayerControllerB
     )
     {
         ModLogger.LogDebug("PlayerControllerB.UpdateLifeSupportMonitorOnPlayerDeath");
-
-        if( causeOfDeath == CauseOfDeath.Gravity)
-        {
-            ModLogger.LogDebug("DIED TO GRAVITY");
-            MostFallsMonitor.checkFallDict(0);  //passing 0 for host
-            TotalFallsMonitor.Instance.NewDeath();
-            MostFallsMonitor.Instance.UpdateMonitor();
-        }
-
         DaysSinceIncidentMonitor.Instance.playerDied();
     }
 
@@ -60,13 +52,6 @@ public class PlayerControllerB
     )
     {
         ModLogger.LogDebug("PlayerControllerB.UpdateLifeSupportMonitorOnPlayerDeathClientRpc");
-
-        if(causeOfDeath == CauseOfDeath.Gravity)
-        {
-            MostFallsMonitor.checkFallDict(playerId);
-            MostFallsMonitor.Instance.UpdateMonitor();
-            TotalFallsMonitor.Instance.NewDeath();
-        }
 
         DaysSinceIncidentMonitor.Instance.playerDied();
     }

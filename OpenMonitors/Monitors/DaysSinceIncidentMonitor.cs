@@ -39,7 +39,6 @@ public class DaysSinceIncidentMonitor : MonoBehaviour
     public void playerDied()
     {
         deathOnDay = true;
-        Console.WriteLine("THEY DIED");
     }
 
     public void EndOfDay()
@@ -51,10 +50,8 @@ public class DaysSinceIncidentMonitor : MonoBehaviour
         else { 
             deathOnDay = false;
             daysSinceIncident = 0;
-        }
+        } 
 
-        Console.WriteLine("INCREMENT DAYS SINCE INCI");
-        Console.WriteLine(daysSinceIncident);
         _LastCall = now;
 
         UpdateMonitor();    

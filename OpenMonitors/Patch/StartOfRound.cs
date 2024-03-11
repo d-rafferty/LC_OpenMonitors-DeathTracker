@@ -15,6 +15,7 @@ public class StartOfRound
     {
         ModLogger.LogDebug("StartOfRound.Initialize");
         Setup.Initialize();
+        //MostFallsMonitor.Instance.Start();
     }
 
     [HarmonyPostfix]
@@ -23,7 +24,7 @@ public class StartOfRound
     {
         ModLogger.LogDebug("StartOfRound.RefreshMonitorsWhenPlayerRevives");
         DayMonitor.Instance.UpdateMonitor();
-        MostFallsMonitor.Instance.UpdateMonitor();
+        //MostFallsMonitor.Instance.UpdateMonitor();
         TotalFallsMonitor.Instance.UpdateMonitor();
         PlayersLifeSupportMonitor.Instance.UpdateMonitor();
         DaysSinceIncidentMonitor.Instance.UpdateMonitor();
@@ -52,7 +53,10 @@ public class StartOfRound
     {
         ModLogger.LogDebug("StartOfRound.RefreshDayWhenShipHasLeft");
         DayMonitor.Instance.UpdateMonitor();
+        TotalFallsMonitor.Instance.UpdateMonitor();
+        MostFallsMonitor.Instance.UpdateMonitor();
         DaysSinceIncidentMonitor.Instance.EndOfDay();
+        
     }
 
     [HarmonyPostfix]
@@ -61,6 +65,8 @@ public class StartOfRound
     {
         ModLogger.LogDebug("StartOfRound.UpdateDayAtStartOfGame");
         DayMonitor.Instance.UpdateMonitor();
+        TotalFallsMonitor.Instance.UpdateMonitor();
+        MostFallsMonitor.Instance.UpdateMonitor();
 
     }
 
@@ -70,7 +76,6 @@ public class StartOfRound
     {
         ModLogger.LogDebug("StartOfRound.UpdateMonitorsWhenPlayerConnectsClient");
         DaysSinceIncidentMonitor.Instance.UpdateMonitor();
-        MostFallsMonitor.Instance.UpdateMonitor();
         PlayersLifeSupportMonitor.Instance.UpdateMonitor();
         TotalFallsMonitor.Instance.UpdateMonitor();
     }
